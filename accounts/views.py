@@ -1,21 +1,37 @@
 from django.contrib import messages
 from django.contrib.auth.hashers import make_password
-from django.shortcuts import render, redirect, HttpResponse
+from django.shortcuts import render, redirect, HttpResponse, get_object_or_404
 from django.views import View
 from .models import User
 from django.contrib.auth import authenticate, login, logout
+from .models import Category, Anime
 
 
 def home_view(request):
     return render(request, "pages/index.html")
 
 
-def anime_details_view(request):
-    return render(request, "pages/anime_details.html")
+def anime_details_view(request, slug):
+    animes = get_object_or_404(Anime, slug=slug)
+    context = {"animes": animes}
+    return render(request, "pages/anime_details.html", context)
 
 
-def category_view(request):
-    return render(request, "pages/categories.html")
+def category_view(request, slug):
+    category = get_object_or_404(Category, slug=slug)
+    anime = Anime.objects.filter(category=category)
+
+    context = {
+        "category": category,
+        "anime": anime,
+    }
+
+    return render(request, "pages/categories.html", context)
+
+
+def category_list_view(request):
+    categories = Category.objects.all()
+    return render(request, "pages/categories.html", {"categories": categories})
 
 
 def anime_watching_view(request):
@@ -41,7 +57,6 @@ class RegisterView(View):
         username = request.POST.get('username')
         password1 = request.POST.get('password')
         password2 = request.POST.get('confirm_password')
-
 
         if password1 != password2:
             messages.error(request, "Passwords do not match!")
@@ -87,6 +102,7 @@ class LoginView(View):
         else:
             messages.error(request, 'Invalid username or password.')
             return render(request, self.template_name)
+
 
 def logout_view(request):
     logout(request)

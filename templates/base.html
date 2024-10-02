@@ -48,10 +48,9 @@
                         <nav class="header__menu mobile-menu">
                             <ul>
                                 <li class="active"><a href="{% url 'home' %}">Homepage</a></li>
-                                <li><a href="{% url 'category' %}">Categories <span class="arrow_carrot-down"></span></a>
+                                <li><a href="{% url 'category_list' %}">Categories <span class="arrow_carrot-down"></span></a>
                                     <ul class="dropdown">
-                                        <li><a href="{% url 'category' %}">Categories</a></li>
-                                        <li><a href="{% url 'anime_details' %}">Anime Details</a></li>
+                                        <li><a href="{% url 'category_list' %}">Categories</a></li>
                                         <li><a href="{% url 'anime_watching' %}">Anime Watching</a></li>
                                         <li><a href="{% url 'blog_details' %}">Blog Details</a></li>
                                         {% if request.user.is_authenticated %}
@@ -98,7 +97,7 @@
                 <div class="footer__nav">
                     <ul>
                         <li class="active"><a href="{% url 'home' %}">Homepage</a></li>
-                        <li><a href="{% url 'category' %}">Categories</a></li>
+                        <li><a href="{% url 'category_list' %}">Categories</a></li>
                         <li><a href="{% url 'blog' %}">Our Blog</a></li>
                     </ul>
                 </div>
