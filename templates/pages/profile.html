@@ -1,0 +1,118 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}
+    Profile
+{% endblock %}
+
+{% block content %}
+    <!-- Display messages -->
+    {% if messages %}
+        <div class="messages mb-4">
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}" role="alert">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <!-- User Info Start -->
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-6">
+                <div class="profile-box shadow-sm p-4 rounded bg-light">
+                    <h2 class="mb-4">Your Information</h2>
+                    <div class="user-info">
+                        <p><strong>Your Username:</strong> {{ request.user.username }}</p>
+                        <p><strong>Your Email:</strong> {{ request.user.email }}</p>
+                        {% if request.user.photo %}
+                            <div class="profile-picture-container mb-3">
+                                <img src="{{ request.user.photo.url }}" alt="Profile Picture"
+                                     class="img-fluid img-thumbnail rounded-3">
+                                <form action="{% url 'delete_profile_picture' %}" method="post" class="mt-2">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-danger btn-sm">
+                                        <i class="fa fa-trash"></i> Delete Picture
+                                    </button>
+                                </form>
+                            </div>
+                        {% else %}
+                            <p class="text-muted">You do not have a profile picture yet.</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- User Info End -->
+
+    <!-- Edit Profile Start -->
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-6">
+                <div class="profile-box shadow-sm p-4 rounded bg-light">
+                    <h2 class="mb-4">Edit Profile</h2>
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="form-group mb-3">
+                            <label for="username" class="form-label">Username</label>
+                            <input type="text" id="username" name="first_name" value="{{ username }}"
+                                   class="form-control" required>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" id="email" name="email" value="{{ email }}" class="form-control"
+                                   required>
+                        </div>
+                        <div class="form-group mb-4">
+                            <label for="photo" class="form-label">Profile Picture</label>
+                            <input type="file" id="photo" name="photo" class="form-control">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Update Profile</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Edit Profile End -->
+
+    <div class="container py-5">
+        <div class="product__page__content">
+            <div class="product__page__title mb-4">
+                <div class="row align-items-center">
+                    <div class="col-lg-8 col-md-8 col-sm-6">
+                        <div class="section-title">
+                            <h4>Your Favorite Anime</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                {% for anime in user.liked_anime.all %}
+                    <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+                        <div class="product__item shadow-sm">
+                            <div class="product__item__pic set-bg" data-setbg="{{ anime.get_first_photo }}">
+                                <div class="ep">18 / 18</div>
+                                <div class="comment"><i class="fa fa-comments"></i> 11</div>
+                                <div class="view"><i class="fa fa-eye"></i> 9141</div>
+                            </div>
+                            <div class="product__item__text text-center">
+                                <ul class="list-unstyled mb-2">
+                                    <li><strong>Status:</strong> Active</li>
+                                    <li><strong>Type:</strong> Movie</li>
+                                </ul>
+                                <h5>
+                                    <a href="{% url 'anime_details_view' slug=anime.slug %}">{{ anime.title }}</a>
+                                </h5>
+                            </div>
+                        </div>
+                    </div>
+                {% empty %}
+                    <p class="text-center">No favorite anime found.</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

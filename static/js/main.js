@@ -93,9 +93,40 @@
     /*------------------
         Scroll To Top
     --------------------*/
-    $("#scrollToTopButton").click(function() {
-        $("html, body").animate({ scrollTop: 0 }, "slow");
+    $("#scrollToTopButton").click(function () {
+        $("html, body").animate({scrollTop: 0}, "slow");
         return false;
-     });
+    });
 
 })(jQuery);
+
+document.addEventListener('DOMContentLoaded', () => {
+    // Handle showing/hiding reply form
+    document.querySelectorAll('.reply-comment').forEach(replyButton => {
+        replyButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            const commentId = replyButton.dataset.commentId;
+            const replyForm = document.getElementById(`reply-form-${commentId}`);
+            replyForm.style.display = replyForm.style.display === 'none' ? 'block' : 'none';
+        });
+    });
+
+    // Handle like comment action
+    document.querySelectorAll('.like-comment').forEach(likeButton => {
+        likeButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            const commentId = likeButton.dataset.commentId;
+
+            fetch(`/like_comment/${commentId}/`, {method: 'POST', headers: {'X-CSRFToken': getCookie('csrftoken')}})
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Update the like count
+                        likeButton.textContent = `Like (${data.like_count})`;
+                    }
+                });
+        });
+    });
+
+    // Handle like reply action in a similar manner if needed
+});

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Category, AnimeImage, Anime, User
+from .models import Category, AnimeImage, Anime, User, Blog, BlogImg, BlogComment, AnimeComment
 
 
 @admin.register(Category)
@@ -26,3 +26,24 @@ class AnimeAdmin(admin.ModelAdmin):
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
     list_display = ("username", "email", "photo")
+
+class BlogImgInline(admin.TabularInline):
+    model = BlogImg
+    extra = 1
+
+@admin.register(Blog)
+class BlogAdmin(admin.ModelAdmin):
+    list_display = ("pk", "title", "date", "slug")
+    list_display_links = ("pk", "title")
+    prepopulated_fields = {'slug': ('title',)}
+    inlines = [BlogImgInline]
+
+@admin.register(BlogComment)
+class BlogCommentAdmin(admin.ModelAdmin):
+    list_display = ("pk", "user", "content", "created_at", "blog")
+    list_display_links = ("pk", "user")
+
+@admin.register(AnimeComment)
+class AnimeCommentAdmin(admin.ModelAdmin):
+    list_display = ("pk", "user", "content", "created_at", "anime")
+    list_display_links = ("pk", "user")

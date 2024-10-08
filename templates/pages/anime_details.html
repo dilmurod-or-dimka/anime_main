@@ -3,18 +3,18 @@
 
 {% block title %}
     Про аниме
-{% endblock%}
+{% endblock %}
 
 {% block content %}
-        <!-- Breadcrumb Begin -->
+    <!-- Breadcrumb Begin -->
     <div class="breadcrumb-option">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
                     <div class="breadcrumb__links">
-                        <a href="./index.html"><i class="fa fa-home"></i> Home</a>
-                        <a href="./categories.html">Categories</a>
-                        <span>Romance</span>
+                        <a href="{% url 'home' %}"><i class="fa fa-home"></i> Home</a>
+                        <a href="{% url 'category_list' %}">Categories</a>
+                        <span>{{ animes.category }}</span>
                     </div>
                 </div>
             </div>
@@ -28,9 +28,9 @@
             <div class="anime__details__content">
                 <div class="row">
                     <div class="col-lg-3">
-                        <div class="anime__details__pic set-bg" data-setbg= "{{ animes.get_first_photo }}">
+                        <div class="anime__details__pic set-bg" data-setbg="{{ animes.get_first_photo }}">
                             <div class="comment"><i class="fa fa-comments"></i> 11</div>
-                            <div class="view"><i class="fa fa-eye"></i> 9141</div>
+                            <div class="view"><i class="fa fa-eye"></i>{{ animes.views_count }}</div>
                         </div>
                     </div>
                     <div class="col-lg-9">
@@ -54,16 +54,19 @@
                                         <ul>
                                             <li><span>Duration:</span> {{ animes.duration }} min/ep</li>
                                             <li><span>Quality:</span> {{ animes.quality }}</li>
-                                            <li><span>Views:</span> 131,541</li>
+                                            <li><span>Views:</span>{{ animes.views_count }}</li>
                                         </ul>
                                     </div>
                                 </div>
                             </div>
                             <div class="anime__details__btn">
-                                <a href="#" class="follow-btn"><i class="fa fa-heart-o"></i> Follow</a>
-                                <a href="#" class="watch-btn"><span>Watch Now</span> <i
-                                    class="fa fa-angle-right"></i></a>
-                                </div>
+                                <a href="{% url 'like_anime' anime_slug=animes.slug %}" class="follow-btn">
+                                    <i class="fa {% if animes in request.user.liked_anime.all %}fa-heart{% else %}fa-heart-o{% endif %}"></i>
+                                    {% if animes in request.user.liked_anime.all %} Unfollow {% else %}
+                                        Follow {% endif %}
+                                </a>
+                                <a href="{% url 'anime_watching' %}" class="watch-btn"><span>Watch Now</span> <i
+                                        class="fa fa-angle-right"></i></a>
                             </div>
                         </div>
                     </div>
@@ -75,68 +78,33 @@
                                 <h5>Reviews</h5>
                             </div>
                             <div class="anime__review__item">
-                                <div class="anime__review__item__pic">
-                                    <img src="{% static 'img/anime/review-1.jpg' %}" alt="">
-                                </div>
-                                <div class="anime__review__item__text">
-                                    <h6>Chris Curry - <span>1 Hour ago</span></h6>
-                                    <p>whachikan Just noticed that someone categorized this as belonging to the genre
-                                    "demons" LOL</p>
-                                </div>
-                            </div>
-                            <div class="anime__review__item">
-                                <div class="anime__review__item__pic">
-                                    <img src="{% static 'img/anime/review-2.jpg' %}" alt="">
-                                </div>
-                                <div class="anime__review__item__text">
-                                    <h6>Lewis Mann - <span>5 Hour ago</span></h6>
-                                    <p>Finally it came out ages ago</p>
-                                </div>
-                            </div>
-                            <div class="anime__review__item">
-                                <div class="anime__review__item__pic">
-                                    <img src="{% static 'img/anime/review-3.jpg' %}" alt="">
-                                </div>
-                                <div class="anime__review__item__text">
-                                    <h6>Louis Tyler - <span>20 Hour ago</span></h6>
-                                    <p>Where is the episode 15 ? Slow update! Tch</p>
-                                </div>
-                            </div>
-                            <div class="anime__review__item">
-                                <div class="anime__review__item__pic">
-                                    <img src="{% static 'img/anime/review-4.jpg' %}" alt="">
-                                </div>
-                                <div class="anime__review__item__text">
-                                    <h6>Chris Curry - <span>1 Hour ago</span></h6>
-                                    <p>whachikan Just noticed that someone categorized this as belonging to the genre
-                                    "demons" LOL</p>
-                                </div>
-                            </div>
-                            <div class="anime__review__item">
-                                <div class="anime__review__item__pic">
-                                    <img src="{% static 'img/anime/review-5.jpg' %}" alt="">
-                                </div>
-                                <div class="anime__review__item__text">
-                                    <h6>Lewis Mann - <span>5 Hour ago</span></h6>
-                                    <p>Finally it came out ages ago</p>
-                                </div>
-                            </div>
-                            <div class="anime__review__item">
-                                <div class="anime__review__item__pic">
-                                    <img src="{% static 'img/anime/review-6.jpg' %}" alt="">
-                                </div>
-                                <div class="anime__review__item__text">
-                                    <h6>Louis Tyler - <span>20 Hour ago</span></h6>
-                                    <p>Where is the episode 15 ? Slow update! Tch</p>
-                                </div>
+                                {% for comment in comments %}
+                                    <div class="anime__review__item">
+                                        <div class="anime__review__item__pic">
+                                            {% if comment.user.photo %}
+                                                <img src="{{ comment.user.photo.url }}" alt="">
+                                            {% else %}
+                                                <img src="{% static 'img/blog/details/comment-2.png' %}" alt="">
+                                            {% endif %}
+                                        </div>
+                                        <div class="anime__review__item__text">
+                                            <div class="meta">
+                                                <h5>{{ comment.user.username }}</h5>
+                                                <span>- {{ comment.created_at }}</span>
+                                            </div>
+                                            <p>{{ comment.content }}</p>
+                                        </div>
+                                    </div>
+                                {% endfor %}
                             </div>
                         </div>
                         <div class="anime__details__form">
                             <div class="section-title">
                                 <h5>Your Comment</h5>
                             </div>
-                            <form action="#">
-                                <textarea placeholder="Your Comment"></textarea>
+                            <form action="{% url 'add_anime_comment' animes.slug %}" method="POST">
+                                {% csrf_token %}
+                                <textarea name="content" placeholder="Your Comment"></textarea>
                                 <button type="submit"><i class="fa fa-location-arrow"></i> Review</button>
                             </form>
                         </div>
@@ -146,30 +114,18 @@
                             <div class="section-title">
                                 <h5>you might like...</h5>
                             </div>
-                            <div class="product__sidebar__view__item set-bg" data-setbg="{% static 'img/sidebar/tv-1.jpg' %}">
-                                <div class="ep">18 / ?</div>
-                                <div class="view"><i class="fa fa-eye"></i> 9141</div>
-                                <h5><a href="#">Boruto: Naruto next generations</a></h5>
+                            {% for related in related_anime %}
+                            <div class="product__sidebar__view__item set-bg"
+                                 data-setbg="{{ related.get_first_photo }}">
+                                <div class="ep">18/18</div>
+                                <div class="view"><i class="fa fa-eye"></i>{{ related.views_count }}</div>
+                                <h5><a href="{% url 'anime_details_view' slug=related.slug %}">{{ related.title }}</a></h5>
                             </div>
-                            <div class="product__sidebar__view__item set-bg" data-setbg="{% static 'img/sidebar/tv-2.jpg' %}">
-                                <div class="ep">18 / ?</div>
-                                <div class="view"><i class="fa fa-eye"></i> 9141</div>
-                                <h5><a href="#">The Seven Deadly Sins: Wrath of the Gods</a></h5>
-                            </div>
-                            <div class="product__sidebar__view__item set-bg" data-setbg="{% static 'img/sidebar/tv-3.jpg' %}">
-                                <div class="ep">18 / ?</div>
-                                <div class="view"><i class="fa fa-eye"></i> 9141</div>
-                                <h5><a href="#">Sword art online alicization war of underworld</a></h5>
-                            </div>
-                            <div class="product__sidebar__view__item set-bg" data-setbg="{% static 'img/sidebar/tv-4.jpg' %}">
-                                <div class="ep">18 / ?</div>
-                                <div class="view"><i class="fa fa-eye"></i> 9141</div>
-                                <h5><a href="#">Fate/stay night: Heaven's Feel I. presage flower</a></h5>
-                            </div>
+                            {% endfor %}
                         </div>
                     </div>
                 </div>
             </div>
-        </section>
-        <!-- Anime Section End -->
+    </section>
+    <!-- Anime Section End -->
 {% endblock %}

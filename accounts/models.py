@@ -4,10 +4,6 @@ from django.urls import reverse
 from django.template.defaultfilters import slugify
 
 
-class User(AbstractUser):
-    photo = models.ImageField(upload_to="photos/", blank=True, null=True)
-
-
 class Category(models.Model):
     title = models.CharField(verbose_name="Category title", max_length=150, unique=True)
     slug = models.SlugField(blank=True, unique=True, null=True)
@@ -52,6 +48,7 @@ class Anime(models.Model):
     duration = models.IntegerField(verbose_name="Duration")
     quality = models.CharField(verbose_name="Quality", max_length=150, default="HD")
     slug = models.SlugField()
+    views_count = models.PositiveIntegerField(default=0)
 
     def __str__(self):
         return self.title
@@ -87,3 +84,55 @@ class AnimeImage(models.Model):
 
     def __str__(self):
         return f"Image for {self.anime.title}"
+
+
+
+class User(AbstractUser):
+    photo = models.ImageField(upload_to="photos/", blank=True, null=True)
+    liked_anime = models.ManyToManyField(Anime, blank=True, related_name="liked_anime")
+
+    def __str__(self):
+        return self.username
+
+
+class Blog(models.Model):
+    title = models.CharField(verbose_name="Blog title", max_length=150, unique=True)
+    descr = models.TextField(verbose_name="Blog description")
+    date = models.DateField(verbose_name="Date")
+    slug = models.SlugField()
+
+    def __str__(self):
+        return self.title
+
+    def get_first_photo(self):
+        photo = self.blogimg_set.first()
+        if photo:
+            return photo.photo.url
+        return "https://cs8.pikabu.ru/post_img/big/2016/09/10/4/1473482891145853538.jpg"
+
+class BlogImg(models.Model):
+    photo = models.ImageField(verbose_name="Photo", upload_to="photos/", blank=True, null=True)
+    blog = models.ForeignKey(Blog, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"Image for {self.blog.title}"
+
+
+class BlogComment(models.Model):
+    blog = models.ForeignKey(Blog, related_name="comments", on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    content = models.TextField(verbose_name="Comment")
+    created_at = models.DateField(auto_now_add=True)
+
+    def __str__(self):
+        return self.content
+
+
+class AnimeComment(models.Model):
+    anime = models.ForeignKey(Anime, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    content = models.TextField(verbose_name="Comment")
+    created_at = models.DateField(auto_now_add=True)
+
+    def __str__(self):
+        return self.content
