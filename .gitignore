@@ -1,10 +1,5 @@
 .venv/
 .idea/
-__pycache__/
-<<<<<<< HEAD
-db.sqlite3
-=======
->>>>>>> ac78184 (fix static)
 media/
 db.sqlite3
 
