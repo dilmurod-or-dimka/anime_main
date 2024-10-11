@@ -1,9 +1,16 @@
+import random
+import hashlib
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.hashers import make_password
+from django.core.mail import send_mail
+from django.db.models import Q
+from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
 from django.contrib.auth import authenticate, login, logout
+
+from amine_main import settings
 from .models import Category, Anime, User, Blog, BlogComment, AnimeComment
 from django.core.paginator import Paginator
 from datetime import timedelta
@@ -18,6 +25,7 @@ def home_view(request):
     anime_data = Anime.objects.all().order_by('-date')[:4]
 
     context = {
+        'active_page': 'home',
         'categories': categories,
         'anime_views': anime_views[:6],
         'anime_data': anime_data,
@@ -25,6 +33,7 @@ def home_view(request):
     }
 
     return render(request, "pages/index.html", context)
+
 
 def home_view2(request, slug):
     category = get_object_or_404(Category, slug=slug)
@@ -76,6 +85,7 @@ def category_list_view(request):
     categories = paginator.get_page(page_number)
 
     context = {
+        'active_page': 'category',
         "anime_data": anime_data,
         "categories": categories,
         "anime_views": anime_views,
@@ -94,6 +104,7 @@ def blog_view(request):
     page_number = request.GET.get('page')
     blogs = paginator.get_page(page_number)
     context = {
+        'active_page': 'blog',
         "blogs": blogs,
     }
     return render(request, "pages/blog.html", context)
@@ -160,7 +171,10 @@ class LoginView(View):
     template_name = "pages/login.html"
 
     def get(self, request):
-        return render(request, self.template_name)
+        context = {
+            'active_page': 'login',
+        }
+        return render(request, self.template_name, context)
 
     def post(self, request):
         username = request.POST.get('username')
@@ -187,6 +201,7 @@ class ProfileView(View):
         user = request.user
         liked_anime = user.liked_anime.all()
         context = {
+            'active_page': 'profile',
             "email": user.email,
             "photo": user.photo,
             "username": user.username,
@@ -270,3 +285,81 @@ def add_anime_comment(request, slug):
             comment.save()
 
         return redirect('anime_details_view', slug=slug)
+
+
+def anime_search_view(request):
+    query = request.GET.get('q')
+    results = Anime.objects.none()
+
+    anime_views = Anime.objects.all().order_by('-views_count')[:4]
+    anime_data = Anime.objects.all().order_by('-date')[:4]
+
+    if query:
+        results = Anime.objects.filter(
+            Q(title__icontains=query) | Q(descr__icontains=query)
+        )
+    context = {
+        'results': results,
+        'query': query,
+        'anime_views': anime_views,
+        'anime_data': anime_data
+    }
+    return render(request, 'pages/anime_search_results.html', context)
+
+
+reset_tokens = {}
+
+
+def forgot_password_view(request):
+    if request.method == "POST":
+        email = request.POST.get('email')
+        try:
+            user = User.objects.get(email=email)
+
+            token = hashlib.sha256(str(random.random()).encode('utf8')).hexdigest()
+            reset_tokens[email] = token
+
+            reset_link = request.build_absolute_uri(f'/reset_password/{token}/')
+
+            send_mail(
+                'Сброс пароля',
+                f'Перейдите по следующей ссылке для сброса пароля: {reset_link}',
+                'from@example.com',  # Замените на ваш email
+                [email],
+                fail_silently=False,
+            )
+
+            messages.success(request, 'Ссылка для сброса пароля отправлена на вашу почту.')
+            return redirect('forgot_password')
+        except User.DoesNotExist:
+            messages.info(request, 'Пользователь с таким email не найден.')
+
+    return render(request, 'registration/forgot_password.html')
+
+
+def reset_password_view(request, token):
+    email = None
+    for stored_email, stored_token in reset_tokens.items():
+        if stored_token == token:
+            email = stored_email
+            break
+
+    if not email:
+        return HttpResponse("Неверный или устаревший токен.")
+
+    if request.method == 'POST':
+        new_password = request.POST.get('password')
+        try:
+            user = User.objects.get(email=email)
+            user.set_password(new_password)
+            user.save()
+
+            del reset_tokens[email]
+
+            messages.success(request, "Пароль успешно изменён.")
+            return redirect('login')
+        except User.DoesNotExist:
+            messages.info(request, "Пользователь не найден.")
+
+    return render(request, 'registration/reset_password.html', {"token": token})
+

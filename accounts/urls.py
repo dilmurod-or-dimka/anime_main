@@ -2,6 +2,7 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
+    path('search/', views.anime_search_view, name='anime_search'),
     path("", views.home_view, name="home"),
     path('anime/<slug:slug>/', views.anime_details_view, name='anime_details_view'),
     path("categories/<slug:slug>/", views.category_view, name="category"),
@@ -17,5 +18,7 @@ urlpatterns = [
     path('anime/<slug:anime_slug>/like/', views.like_anime, name='like_anime'),
     path('add_blog_comment/<slug:slug>/', views.add_blog_comment, name='add_blog_comment'),
     path('add_anime_comment/<slug:slug>/', views.add_anime_comment, name='add_anime_comment'),
+    path('forgot_password/', views.forgot_password_view, name='forgot_password'),
+    path('reset_password/<str:token>/', views.reset_password_view, name='reset_password'),
     path("<slug:slug>/", views.home_view2, name="home2"),
 ]

@@ -1,5 +1,7 @@
-.venv/bin
+.venv/
 .idea/
 __pycache__/
-static
 db.sqlite3
+static/
+media/
+

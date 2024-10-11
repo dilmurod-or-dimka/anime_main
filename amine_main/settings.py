@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-45cf2nzww8r0^jxags8&npx7i(tr^za*xbsn1rjtin7fq%$0yi
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -57,8 +57,7 @@ ROOT_URLCONF = 'amine_main.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates']
-        ,
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -131,3 +130,13 @@ MEDIA_ROOT = BASE_DIR / 'media'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 465
+EMAIL_USE_TLS = False
+EMAIL_USE_SSL = True
+EMAIL_HOST_USER = 'bek0010311@gmail.com'
+EMAIL_HOST_PASSWORD = 'ukokmhdrbiiyerxj'
+DEFAULT_FROM_EMAIL = 'dilmurod1506@gmail.com'
+CONTACT_US_EMAIL = 'dilmurod1506@gmail.com'
