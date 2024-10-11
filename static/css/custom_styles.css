@@ -1,0 +1,63 @@
+
+.anime__review__item__pic img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 20px;
+}
+
+.anime__review__item__text {
+    flex-grow: 1;
+}
+
+.anime__review__item__text .meta {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.anime__review__item__text .meta h5 {
+    color: #fff; /* Белый цвет имени пользователя */
+    font-weight: bold;
+    margin-right: 5px;
+    display: inline-block;
+}
+
+.anime__review__item__text .meta span {
+    color: #fff; /* Светло-серый цвет для времени создания */
+    font-size: 0.9rem;
+    display: inline-block;
+}
+
+.anime__review__item__text p {
+    color: #ccc; /* Светло-серый цвет для комментария */
+    margin-top: 5px;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 100px; /* Добавленный отступ снизу */
+}
+
+.step-links a {
+    margin: 0 5px;
+    padding: 8px 12px;
+    background-color: #f1f1f1;
+    border-radius: 5px;
+    color: #333;
+    text-decoration: none;
+}
+
+.step-links .current {
+    margin: 0 5px;
+    padding: 8px 12px;
+    background-color: #333;
+    color: white;
+    border-radius: 5px;
+}
+
+.custom-title {
+    color: #fff;
+}
