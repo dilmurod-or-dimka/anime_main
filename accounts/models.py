@@ -78,6 +78,17 @@ class Anime(models.Model):
         verbose_name_plural = "Anime"
 
 
+class Episodes(models.Model):
+    anime = models.ForeignKey(Anime, on_delete=models.CASCADE, related_name="episodes")
+    number = models.IntegerField(verbose_name="Episode number")
+    title = models.CharField(max_length=255, verbose_name="Episode title")
+    video_url = models.URLField()
+
+    def __str__(self):
+        return f'Episode {self.number}: {self.title}'
+
+
+
 class AnimeImage(models.Model):
     photo = models.ImageField(verbose_name="Photo", upload_to="photos/", blank=True, null=True)
     anime = models.ForeignKey(Anime, on_delete=models.CASCADE)

@@ -65,7 +65,7 @@
                                     {% if animes in request.user.liked_anime.all %} Unfollow {% else %}
                                         Follow {% endif %}
                                 </a>
-                                <a href="{% url 'anime_watching' %}" class="watch-btn"><span>Watch Now</span> <i
+                                <a href="{% url 'anime_watching' slug=animes.slug %}" class="watch-btn"><span>Watch Now</span> <i
                                         class="fa fa-angle-right"></i></a>
                             </div>
                         </div>

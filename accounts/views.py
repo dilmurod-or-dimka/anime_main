@@ -1,5 +1,7 @@
 import random
 import hashlib
+from importlib.resources import contents
+
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.hashers import make_password
@@ -7,6 +9,7 @@ from django.core.mail import send_mail
 from django.db.models import Q
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
+from django.template.defaulttags import comment
 from django.views import View
 from django.contrib.auth import authenticate, login, logout
 
@@ -93,8 +96,15 @@ def category_list_view(request):
     return render(request, "pages/categories.html", context)
 
 
-def anime_watching_view(request):
-    return render(request, "pages/anime_watching.html")
+def anime_watching_view(request, slug):
+    anime = get_object_or_404(Anime, slug=slug)
+    episodes = anime.episodes.all()
+
+    context = {
+        "anime": anime,
+        "episodes": episodes,
+    }
+    return render(request, "pages/anime_watching.html", context)
 
 
 def blog_view(request):
@@ -275,6 +285,7 @@ def add_blog_comment(request, slug):
         return redirect('blog_details', slug=slug)
 
 
+
 def add_anime_comment(request, slug):
     if request.method == "POST":
         anime = get_object_or_404(Anime, slug=slug)
@@ -362,4 +373,3 @@ def reset_password_view(request, token):
             messages.info(request, "Пользователь не найден.")
 
     return render(request, 'registration/reset_password.html', {"token": token})
-

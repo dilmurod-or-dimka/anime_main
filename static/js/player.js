@@ -1,8 +1,9 @@
 typeof navigator === "object" && (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
-  typeof define === 'function' && define.amd ? define('Plyr', factory) :
-  (global = global || self, global.Plyr = factory());
-}(this, (function () { 'use strict';
+      typeof define === 'function' && define.amd ? define('Plyr', factory) :
+          (global = global || self, global.Plyr = factory());
+}(this, (function () {
+  'use strict';
 
   function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
@@ -255,57 +256,57 @@ typeof navigator === "object" && (function (global, factory) {
   }
 
   var getConstructor = function getConstructor(e) {
-    return null != e ? e.constructor : null;
-  },
+        return null != e ? e.constructor : null;
+      },
       instanceOf = function instanceOf(e, t) {
-    return !!(e && t && e instanceof t);
-  },
+        return !!(e && t && e instanceof t);
+      },
       isNullOrUndefined = function isNullOrUndefined(e) {
-    return null == e;
-  },
+        return null == e;
+      },
       isObject = function isObject(e) {
-    return getConstructor(e) === Object;
-  },
+        return getConstructor(e) === Object;
+      },
       isNumber = function isNumber(e) {
-    return getConstructor(e) === Number && !Number.isNaN(e);
-  },
+        return getConstructor(e) === Number && !Number.isNaN(e);
+      },
       isString = function isString(e) {
-    return getConstructor(e) === String;
-  },
+        return getConstructor(e) === String;
+      },
       isBoolean = function isBoolean(e) {
-    return getConstructor(e) === Boolean;
-  },
+        return getConstructor(e) === Boolean;
+      },
       isFunction = function isFunction(e) {
-    return getConstructor(e) === Function;
-  },
+        return getConstructor(e) === Function;
+      },
       isArray = function isArray(e) {
-    return Array.isArray(e);
-  },
+        return Array.isArray(e);
+      },
       isNodeList = function isNodeList(e) {
-    return instanceOf(e, NodeList);
-  },
+        return instanceOf(e, NodeList);
+      },
       isElement = function isElement(e) {
-    return instanceOf(e, Element);
-  },
+        return instanceOf(e, Element);
+      },
       isEvent = function isEvent(e) {
-    return instanceOf(e, Event);
-  },
+        return instanceOf(e, Event);
+      },
       isEmpty = function isEmpty(e) {
-    return isNullOrUndefined(e) || (isString(e) || isArray(e) || isNodeList(e)) && !e.length || isObject(e) && !Object.keys(e).length;
-  },
+        return isNullOrUndefined(e) || (isString(e) || isArray(e) || isNodeList(e)) && !e.length || isObject(e) && !Object.keys(e).length;
+      },
       is = {
-    nullOrUndefined: isNullOrUndefined,
-    object: isObject,
-    number: isNumber,
-    string: isString,
-    boolean: isBoolean,
-    function: isFunction,
-    array: isArray,
-    nodeList: isNodeList,
-    element: isElement,
-    event: isEvent,
-    empty: isEmpty
-  };
+        nullOrUndefined: isNullOrUndefined,
+        object: isObject,
+        number: isNumber,
+        string: isString,
+        boolean: isBoolean,
+        function: isFunction,
+        array: isArray,
+        nodeList: isNodeList,
+        element: isElement,
+        event: isEvent,
+        empty: isEmpty
+      };
 
   function getDecimalPlaces(e) {
     var t = "".concat(e).match(/(?:\.(\d+))?(?:[eE]([+-]?\d+))?$/);
@@ -562,7 +563,7 @@ typeof navigator === "object" && (function (global, factory) {
   var browser = {
     isIE:
     /* @cc_on!@ */
-     !!document.documentMode,
+        !!document.documentMode,
     isEdge: window.navigator.userAgent.includes('Edge'),
     isWebkit: 'WebkitAppearance' in document.documentElement.style && !/Edge/.test(navigator.userAgent),
     isIPhone: /(iPhone|iPod)/gi.test(navigator.platform),
@@ -1110,7 +1111,8 @@ typeof navigator === "object" && (function (global, factory) {
 
     return new Promise(function (resolve) {
       return _this3.ready ? setTimeout(resolve, 0) : on.call(_this3, _this3.elements.container, 'ready', resolve);
-    }).then(function () {});
+    }).then(function () {
+    });
   }
 
   /**
@@ -1122,7 +1124,8 @@ typeof navigator === "object" && (function (global, factory) {
 
   function silencePromise(value) {
     if (is$1.promise(value)) {
-      value.then(null, function () {});
+      value.then(null, function () {
+      });
     }
   }
 
@@ -1134,6 +1137,7 @@ typeof navigator === "object" && (function (global, factory) {
     var ratio = is$1.array(input) ? input : input.split(':');
     return ratio.map(Number).every(is$1.number);
   }
+
   function reduceAspectRatio(ratio) {
     if (!is$1.array(ratio) || !ratio.every(is$1.number)) {
       return null;
@@ -1150,6 +1154,7 @@ typeof navigator === "object" && (function (global, factory) {
     var divider = getDivider(width, height);
     return [width / divider, height / divider];
   }
+
   function getAspectRatio(input) {
     var parse = function parse(ratio) {
       return validateRatio(ratio) ? ratio.split(':').map(Number) : null;
@@ -1653,7 +1658,8 @@ typeof navigator === "object" && (function (global, factory) {
         }
 
         update(container, result);
-      }).catch(function () {});
+      }).catch(function () {
+      });
     }
   }
 
@@ -2209,7 +2215,7 @@ typeof navigator === "object" && (function (global, factory) {
 
       if (event) {
         switch (event.type) {
-          // Video playing
+            // Video playing
           case 'timeupdate':
           case 'seeking':
           case 'seeked':
@@ -2220,7 +2226,7 @@ typeof navigator === "object" && (function (global, factory) {
             }
 
             break;
-          // Check buffer status
+            // Check buffer status
 
           case 'playing':
           case 'progress':
@@ -3714,11 +3720,11 @@ typeof navigator === "object" && (function (global, factory) {
     },
     // Default controls
     controls: ['play-large', // 'restart',
-    // 'rewind',
-    'play', // 'fast-forward',
-    'progress', 'current-time', // 'duration',
-    'mute', 'volume', 'captions', 'settings', 'pip', 'airplay', // 'download',
-    'fullscreen'],
+      // 'rewind',
+      'play', // 'fast-forward',
+      'progress', 'current-time', // 'duration',
+      'mute', 'volume', 'captions', 'settings', 'pip', 'airplay', // 'download',
+      'fullscreen'],
     settings: ['captions', 'quality', 'speed'],
     // Localisation
     i18n: {
@@ -3804,12 +3810,12 @@ typeof navigator === "object" && (function (global, factory) {
     },
     // Events to watch and bubble
     events: [// Events to watch on HTML5 media elements and bubble
-    // https://developer.mozilla.org/en/docs/Web/Guide/Events/Media_events
-    'ended', 'progress', 'stalled', 'playing', 'waiting', 'canplay', 'canplaythrough', 'loadstart', 'loadeddata', 'loadedmetadata', 'timeupdate', 'volumechange', 'play', 'pause', 'error', 'seeking', 'seeked', 'emptied', 'ratechange', 'cuechange', // Custom events
-    'download', 'enterfullscreen', 'exitfullscreen', 'captionsenabled', 'captionsdisabled', 'languagechange', 'controlshidden', 'controlsshown', 'ready', // YouTube
-    'statechange', // Quality
-    'qualitychange', // Ads
-    'adsloaded', 'adscontentpause', 'adscontentresume', 'adstarted', 'adsmidpoint', 'adscomplete', 'adsallcomplete', 'adsimpression', 'adsclick'],
+      // https://developer.mozilla.org/en/docs/Web/Guide/Events/Media_events
+      'ended', 'progress', 'stalled', 'playing', 'waiting', 'canplay', 'canplaythrough', 'loadstart', 'loadeddata', 'loadedmetadata', 'timeupdate', 'volumechange', 'play', 'pause', 'error', 'seeking', 'seeked', 'emptied', 'ratechange', 'cuechange', // Custom events
+      'download', 'enterfullscreen', 'exitfullscreen', 'captionsenabled', 'captionsdisabled', 'languagechange', 'controlshidden', 'controlsshown', 'ready', // YouTube
+      'statechange', // Quality
+      'qualitychange', // Ads
+      'adsloaded', 'adscontentpause', 'adscontentresume', 'adstarted', 'adsmidpoint', 'adscomplete', 'adsallcomplete', 'adsimpression', 'adsclick'],
     // Selectors
     // Change these to match your template if using custom HTML
     selectors: {
@@ -3984,6 +3990,7 @@ typeof navigator === "object" && (function (global, factory) {
     audio: 'audio',
     video: 'video'
   };
+
   /**
    * Get provider by URL
    * @param {String} url
@@ -4006,7 +4013,8 @@ typeof navigator === "object" && (function (global, factory) {
   // ==========================================================================
   // Console wrapper
   // ==========================================================================
-  var noop = function noop() {};
+  var noop = function noop() {
+  };
 
   var Console = /*#__PURE__*/function () {
     function Console() {
@@ -4432,7 +4440,8 @@ typeof navigator === "object" && (function (global, factory) {
       ui.setTitle.call(this); // Assure the poster image is set, if the property was added before the element was created
 
       if (this.poster) {
-        ui.setPoster.call(this, this.poster, false).catch(function () {});
+        ui.setPoster.call(this, this.poster, false).catch(function () {
+        });
       } // Manually set the duration if user has overridden it.
       // The event listeners for it doesn't get called if preload is disabled (#701)
 
@@ -4489,30 +4498,30 @@ typeof navigator === "object" && (function (global, factory) {
       this.media.setAttribute('data-poster', poster); // Wait until ui is ready
 
       return ready.call(this) // Load image
-      .then(function () {
-        return loadImage(poster);
-      }).catch(function (err) {
-        // Hide poster on error unless it's been set by another call
-        if (poster === _this2.poster) {
-          ui.togglePoster.call(_this2, false);
-        } // Rethrow
+          .then(function () {
+            return loadImage(poster);
+          }).catch(function (err) {
+            // Hide poster on error unless it's been set by another call
+            if (poster === _this2.poster) {
+              ui.togglePoster.call(_this2, false);
+            } // Rethrow
 
 
-        throw err;
-      }).then(function () {
-        // Prevent race conditions
-        if (poster !== _this2.poster) {
-          throw new Error('setPoster cancelled by later call to setPoster');
-        }
-      }).then(function () {
-        Object.assign(_this2.elements.poster.style, {
-          backgroundImage: "url('".concat(poster, "')"),
-          // Reset backgroundSize as well (since it can be set to "cover" for padded thumbnails for youtube)
-          backgroundSize: ''
-        });
-        ui.togglePoster.call(_this2, true);
-        return poster;
-      });
+            throw err;
+          }).then(function () {
+            // Prevent race conditions
+            if (poster !== _this2.poster) {
+              throw new Error('setPoster cancelled by later call to setPoster');
+            }
+          }).then(function () {
+            Object.assign(_this2.elements.poster.style, {
+              backgroundImage: "url('".concat(poster, "')"),
+              // Reset backgroundSize as well (since it can be set to "cover" for padded thumbnails for youtube)
+              backgroundSize: ''
+            });
+            ui.togglePoster.call(_this2, true);
+            return poster;
+          });
     },
     // Check playing state
     checkPlaying: function checkPlaying(event) {
@@ -4569,9 +4578,9 @@ typeof navigator === "object" && (function (global, factory) {
 
       // Loop through values (as they are the keys when the object is spread 🤔)
       Object.values(_objectSpread2({}, this.media.style)) // We're only fussed about Plyr specific properties
-      .filter(function (key) {
-        return !is$1.empty(key) && key.startsWith('--plyr');
-      }).forEach(function (key) {
+          .filter(function (key) {
+            return !is$1.empty(key) && key.startsWith('--plyr');
+          }).forEach(function (key) {
         // Set on the container
         _this5.elements.container.style.setProperty(key, _this5.media.style.getPropertyValue(key)); // Clean up from media element
 
@@ -5147,26 +5156,26 @@ typeof navigator === "object" && (function (global, factory) {
         // https://bugzilla.mozilla.org/show_bug.cgi?id=1220143
 
         this.bind(elements.buttons.settings, 'keyup', function (event) {
-          var code = event.which; // We only care about space and return
+              var code = event.which; // We only care about space and return
 
-          if (![13, 32].includes(code)) {
-            return;
-          } // Because return triggers a click anyway, all we need to do is set focus
-
-
-          if (code === 13) {
-            controls.focusFirstMenuItem.call(player, null, true);
-
-            return;
-          } // Prevent scroll
+              if (![13, 32].includes(code)) {
+                return;
+              } // Because return triggers a click anyway, all we need to do is set focus
 
 
-          event.preventDefault(); // Prevent playing video (Firefox)
+              if (code === 13) {
+                controls.focusFirstMenuItem.call(player, null, true);
 
-          event.stopPropagation(); // Toggle menu
+                return;
+              } // Prevent scroll
 
-          controls.toggleMenu.call(player, event);
-        }, null, false // Can't be passive as we're preventing default
+
+              event.preventDefault(); // Prevent playing video (Firefox)
+
+              event.stopPropagation(); // Toggle menu
+
+              controls.toggleMenu.call(player, event);
+            }, null, false // Can't be passive as we're preventing default
         ); // Escape closes menu
 
         this.bind(elements.settings.menu, 'keydown', function (event) {
@@ -5341,8 +5350,8 @@ typeof navigator === "object" && (function (global, factory) {
           var inverted = event.webkitDirectionInvertedFromDevice; // Get delta from event. Invert if `inverted` is true
 
           var _map = [event.deltaX, -event.deltaY].map(function (value) {
-            return inverted ? -value : value;
-          }),
+                return inverted ? -value : value;
+              }),
               _map2 = _slicedToArray(_map, 2),
               x = _map2[0],
               y = _map2[1]; // Using the biggest delta, normalize to 1 or -1 (or 0 if no delta)
@@ -5367,7 +5376,7 @@ typeof navigator === "object" && (function (global, factory) {
   var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 
   function createCommonjsModule(fn, module) {
-  	return module = { exports: {} }, fn(module, module.exports), module.exports;
+    return module = {exports: {}}, fn(module, module.exports), module.exports;
   }
 
   var loadjs_umd = createCommonjsModule(function (module, exports) {
@@ -5380,10 +5389,12 @@ typeof navigator === "object" && (function (global, factory) {
        * Global dependencies.
        * @global {Object} document - DOM
        */
-      var devnull = function devnull() {},
+      var devnull = function devnull() {
+          },
           bundleIdCache = {},
           bundleResultCache = {},
           bundleCallbackQueue = {};
+
       /**
        * Subscribe to bundle load event.
        * @param {string[]} bundleIds - Bundle ids
@@ -5424,6 +5435,7 @@ typeof navigator === "object" && (function (global, factory) {
           q.push(fn);
         }
       }
+
       /**
        * Publish bundle load event.
        * @param {string} bundleId - Bundle id
@@ -5445,6 +5457,7 @@ typeof navigator === "object" && (function (global, factory) {
           q.splice(0, 1);
         }
       }
+
       /**
        * Execute callbacks.
        * @param {Object or Function} args - The callback args
@@ -5458,8 +5471,9 @@ typeof navigator === "object" && (function (global, factory) {
           success: args
         }; // success and error callbacks
 
-        if (depsNotFound.length) (args.error || devnull)(depsNotFound);else (args.success || devnull)(args);
+        if (depsNotFound.length) (args.error || devnull)(depsNotFound); else (args.success || devnull)(args);
       }
+
       /**
        * Load individual file.
        * @param {string} path - The file path
@@ -5536,6 +5550,7 @@ typeof navigator === "object" && (function (global, factory) {
 
         if (beforeCallbackFn(path, e) !== false) doc.head.appendChild(e);
       }
+
       /**
        * Load multiple files.
        * @param {string[]} paths - The file paths
@@ -5558,7 +5573,7 @@ typeof navigator === "object" && (function (global, factory) {
           // will be blocked (ex. Ghostery/ABP on Safari)
 
           if (result == 'b') {
-            if (defaultPrevented) pathsNotFound.push(path);else return;
+            if (defaultPrevented) pathsNotFound.push(path); else return;
           }
 
           numWaiting--;
@@ -5570,6 +5585,7 @@ typeof navigator === "object" && (function (global, factory) {
           loadFile(paths[i], fn, args);
         }
       }
+
       /**
        * Initiate script load and register bundle.
        * @param {(string|string[])} paths - The file paths
@@ -5613,8 +5629,9 @@ typeof navigator === "object" && (function (global, factory) {
           }, args);
         }
 
-        if (args.returnPromise) return new Promise(loadFn);else loadFn();
+        if (args.returnPromise) return new Promise(loadFn); else loadFn();
       }
+
       /**
        * Execute callbacks when dependencies have been satisfied.
        * @param {(string|string[])} deps - List of bundle ids
@@ -5791,7 +5808,8 @@ typeof navigator === "object" && (function (global, factory) {
 
         url.pathname = "".concat(url.pathname.split('_')[0], ".jpg"); // Set and show poster
 
-        ui.setPoster.call(player, url.href).catch(function () {});
+        ui.setPoster.call(player, url.href).catch(function () {
+        });
       }); // Setup instance
       // https://github.com/vimeo/player.js
 
@@ -5841,15 +5859,15 @@ typeof navigator === "object" && (function (global, factory) {
           triggerEvent.call(player, media, 'seeking'); // If paused, mute until seek is complete
 
           Promise.resolve(restorePause && embed.setVolume(0)) // Seek
-          .then(function () {
-            return embed.setCurrentTime(time);
-          }) // Restore paused
-          .then(function () {
-            return restorePause && embed.pause();
-          }) // Restore volume
-          .then(function () {
-            return restorePause && embed.setVolume(volume);
-          }).catch(function () {// Do nothing
+              .then(function () {
+                return embed.setCurrentTime(time);
+              }) // Restore paused
+              .then(function () {
+                return restorePause && embed.pause();
+              }) // Restore volume
+              .then(function () {
+                return restorePause && embed.setVolume(volume);
+              }).catch(function () {// Do nothing
           });
         }
       }); // Playback speed
@@ -6162,20 +6180,21 @@ typeof navigator === "object" && (function (global, factory) {
 
 
       loadImage(posterSrc('maxres'), 121) // Higest quality and unpadded
-      .catch(function () {
-        return loadImage(posterSrc('sd'), 121);
-      }) // 480p padded 4:3
-      .catch(function () {
-        return loadImage(posterSrc('hq'));
-      }) // 360p padded 4:3. Always exists
-      .then(function (image) {
-        return ui.setPoster.call(player, image.src);
-      }).then(function (src) {
+          .catch(function () {
+            return loadImage(posterSrc('sd'), 121);
+          }) // 480p padded 4:3
+          .catch(function () {
+            return loadImage(posterSrc('hq'));
+          }) // 360p padded 4:3. Always exists
+          .then(function (image) {
+            return ui.setPoster.call(player, image.src);
+          }).then(function (src) {
         // If the image is padded, use background-size "cover" instead (like youtube does too with their posters)
         if (!src.includes('maxres')) {
           player.elements.poster.style.backgroundSize = 'cover';
         }
-      }).catch(function () {});
+      }).catch(function () {
+      });
       var config = player.config.youtube; // Setup instance
       // https://developers.google.com/youtube/iframe_api_reference
 
@@ -6947,7 +6966,8 @@ typeof navigator === "object" && (function (global, factory) {
             // VAST response
             _this10.onAdError(adError);
           }
-        }).catch(function () {});
+        }).catch(function () {
+        });
       }
       /**
        * Resume our video
@@ -7023,7 +7043,8 @@ typeof navigator === "object" && (function (global, factory) {
           _this11.initialized = false; // Now request some new advertisements
 
           _this11.requestAds();
-        }).catch(function () {});
+        }).catch(function () {
+        });
       }
       /**
        * Handles callbacks after an ad event was invoked
@@ -7286,15 +7307,15 @@ typeof navigator === "object" && (function (global, factory) {
             });
           } // VTT urls
           else {
-              // If string, convert into single-element list
-              var urls = is$1.string(src) ? [src] : src; // Loop through each src URL. Download and process the VTT file, storing the resulting data in this.thumbnails
+            // If string, convert into single-element list
+            var urls = is$1.string(src) ? [src] : src; // Loop through each src URL. Download and process the VTT file, storing the resulting data in this.thumbnails
 
-              var promises = urls.map(function (u) {
-                return _this2.getThumbnail(u);
-              }); // Resolve
+            var promises = urls.map(function (u) {
+              return _this2.getThumbnail(u);
+            }); // Resolve
 
-              Promise.all(promises).then(sortAndResolve);
-            }
+            Promise.all(promises).then(sortAndResolve);
+          }
         });
       } // Process individual VTT file
 
@@ -7777,9 +7798,9 @@ typeof navigator === "object" && (function (global, factory) {
       key: "setScrubbingContainerSize",
       value: function setScrubbingContainerSize() {
         var _fitRatio = fitRatio(this.thumbAspectRatio, {
-          width: this.player.media.clientWidth,
-          height: this.player.media.clientHeight
-        }),
+              width: this.player.media.clientWidth,
+              height: this.player.media.clientHeight
+            }),
             width = _fitRatio.width,
             height = _fitRatio.height;
 
@@ -7838,9 +7859,9 @@ typeof navigator === "object" && (function (global, factory) {
       get: function get() {
         if (this.mouseDown) {
           var _fitRatio2 = fitRatio(this.thumbAspectRatio, {
-            width: this.player.media.clientWidth,
-            height: this.player.media.clientHeight
-          }),
+                width: this.player.media.clientWidth,
+                height: this.player.media.clientHeight
+              }),
               height = _fitRatio2.height;
 
           return height;
@@ -9116,7 +9137,8 @@ typeof navigator === "object" && (function (global, factory) {
           return;
         }
 
-        ui.setPoster.call(this, input, false).catch(function () {});
+        ui.setPoster.call(this, input, false).catch(function () {
+        });
       }
       /**
        * Get the current poster image
@@ -9314,3 +9336,15 @@ typeof navigator === "object" && (function (global, factory) {
   return Plyr;
 
 })));
+
+
+<script>
+  document.querySelectorAll('.anime__details__episodes a').forEach(function(episodeLink) {
+  episodeLink.addEventListener('click', function (event) {
+    event.preventDefault();
+    const videoUrl = this.getAttribute('href');
+    document.querySelector('#player source').setAttribute('src', videoUrl);
+    document.querySelector('#player').load();  // обновить видео плеер
+  });
+});
+</script>

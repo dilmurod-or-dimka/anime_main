@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Category, AnimeImage, Anime, User, Blog, BlogImg, BlogComment, AnimeComment
+from .models import Category, AnimeImage, Anime, Episodes, User, Blog, BlogImg, BlogComment, AnimeComment
 
 
 @admin.register(Category)
@@ -47,3 +47,8 @@ class BlogCommentAdmin(admin.ModelAdmin):
 class AnimeCommentAdmin(admin.ModelAdmin):
     list_display = ("pk", "user", "content", "created_at", "anime")
     list_display_links = ("pk", "user")
+
+@admin.register(Episodes)
+class EpisodesAdmin(admin.ModelAdmin):
+    list_display = ("pk", "title", "number")
+    list_display_links = ("pk", "title")
